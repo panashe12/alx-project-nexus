@@ -1,52 +1,71 @@
 // File: /pages/movies/index.tsx
-
-// pages/movies/index.tsx
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Link from "next/link";
+import MovieCard from "@/components/commons/MovieCard";
 import { MovieProps } from "@/interfaces";
 
 const MoviesPage: React.FC = () => {
+  // State to hold the list of movies
   const [movies, setMovies] = useState<MovieProps[]>([]);
+  // State to hold the search query
   const [query, setQuery] = useState<string>("");
 
-  // Fetch movies from API and return data
+  /**
+   * Fetch movies from the API
+   * @param searchQuery optional search string for filtering movies
+   * @returns flattened array of movies
+   */
   const fetchMovies = async (searchQuery: string = ""): Promise<MovieProps[]> => {
     try {
-      const response = await axios.get<MovieProps[]>(
-        `/api/fetchmovies${searchQuery ? `?q=${searchQuery}` : ""}`
+      // Call our Next.js API
+      const response = await axios.get(
+        `/api/fetch-movies${searchQuery ? `?q=${searchQuery}` : ""}`
       );
-      console.log("Mapped Movies Data:", response.data);
-      return response.data; // RETURN the data
+      const data = response.data;
+
+      // Flatten edges into an array of movie items
+      // IMDb API response has structure: data.titleChartRankings.edges[].node.item
+      const movieList = data.data?.titleChartRankings?.edges?.map(
+        (edge: any) => edge.node.item
+      ) || [];
+
+      console.log("Mapped Movies Data:", movieList); // Debug: check the flattened array
+      return movieList;
     } catch (error) {
       console.error("Error fetching movies:", error);
-      return []; // return empty array on error
+      return []; // Fallback to empty array if API fails
     }
   };
 
-  // Load top movies automatically with caching
+  // Load top movies on first render
   useEffect(() => {
-  const cached = localStorage.getItem("moviesCache");
-
-  if (cached) {
-    const parsed = JSON.parse(cached);
-    if (parsed.length > 0) {
-      setMovies(parsed);
-      return;
+    // Check if cached data exists in localStorage to reduce API calls
+    const cached = localStorage.getItem("moviesCache");
+    if (cached) {
+      const parsed = JSON.parse(cached);
+      if (parsed.length > 0) {
+        setMovies(parsed);
+        return; // use cached data
+      }
     }
-  }
 
-  fetchMovies().then((data) => {
-    localStorage.setItem("moviesCache", JSON.stringify(data));
-    setMovies(data);
-  });
-}, []);
+    // Fetch top movies from API if cache is empty
+    fetchMovies().then((data) => {
+      // Store fetched movies in localStorage for future use
+      localStorage.setItem("moviesCache", JSON.stringify(data));
+      setMovies(data);
+    });
+  }, []);
 
-
-  // Handle search
+  /**
+   * Handle search button click
+   * Fetch movies based on the search query
+   */
   const handleSearch = async () => {
     const data = await fetchMovies(query);
     setMovies(data);
-    localStorage.setItem("moviesCache", JSON.stringify(data));
+    localStorage.setItem("moviesCache", JSON.stringify(data)); // update cache
   };
 
   return (
@@ -68,22 +87,30 @@ const MoviesPage: React.FC = () => {
         </button>
       </div>
 
-      {/* Movies list */}
+      {/* Movies grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {/* Show message if no movies */}
         {movies.length === 0 ? (
           <p>No movies found.</p>
         ) : (
-          movies.map((movie) => (
-            <div key={movie.id} className="bg-gray-900 p-2 rounded">
-              <img
-                src={movie.posterImage}
-                alt={movie.title}
-                className="w-full h-auto rounded mb-2"
-              />
-              <h3 className="text-lg font-semibold">{movie.title}</h3>
-              <p className="text-gray-400">{movie.releaseYear}</p>
-            </div>
-          ))
+          movies.map((movie: any) => {
+            // Skip invalid movies without an ID
+            if (!movie?.id) return null;
+
+            return (
+              <Link href={`/movies/${movie.id}`} key={movie.id}>
+                <MovieCard
+                  id={movie.id}
+                  // Use titleText.text or fallback to originalTitleText.text
+                  title={movie.titleText?.text || movie.originalTitleText?.text || "Untitled"}
+                  // Poster image or placeholder if missing
+                  posterImage={movie.primaryImage?.url || "/placeholder.jpg"}
+                  // Release year or N/A
+                  releaseYear={movie.releaseYear?.year || "N/A"}
+                />
+              </Link>
+            );
+          })
         )}
       </div>
     </div>
@@ -91,6 +118,10 @@ const MoviesPage: React.FC = () => {
 };
 
 export default MoviesPage;
+
+
+
+
 
 
 

@@ -38,11 +38,15 @@ const Header: React.FC = () => {
             Movies
           </Link>
           <Link
-            href="/contact"
+            href="/favorites"
             className="hover:text-[#da7227] text-base transition-colors duration-300 font-semibold"
           >
-            Contact
+            Favorites
           </Link>
+          
+          
+
+
         </nav>
 
         <div className="flex">

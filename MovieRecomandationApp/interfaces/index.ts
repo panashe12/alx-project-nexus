@@ -12,10 +12,11 @@ export interface ButtonProps {
 
 // Movie data for front-end display
 export interface MovieProps {
-  id?: string;
+  id: string;
   posterImage: string;
   releaseYear: string;
   title: string;
+  onFavoriteChange?: () => void;
 }
 
 // Raw API data shapes
@@ -52,6 +53,28 @@ interface TitleChartRankingResponse {
         };
       }[];
     };
+  };
+}
+
+interface MovieOverview {
+  id: string;
+  titleText: {
+    text: string;
+  };
+  primaryImage?: {
+    url: string;
+  };
+  plot?: {
+    plotText?: {
+      plainText: string;
+    };
+  };
+  ratingsSummary?: {
+    aggregateRating: number;
+    voteCount: number;
+  };
+  releaseYear?: {
+    year: number;
   };
 }
 
