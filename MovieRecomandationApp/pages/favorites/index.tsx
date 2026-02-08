@@ -1,26 +1,89 @@
+// File: /pages/favorites/index.tsx
 import { useEffect, useState } from "react";
 import MovieCard from "@/components/commons/MovieCard";
-import { MovieProps } from "@/interfaces";
+
+// Normalized type for Favorites page
+interface NormalizedMovie {
+  id: string;
+  title: string;
+  releaseYear: string;
+  posterImage: string;
+  genres: string;
+}
 
 const FavoritesPage: React.FC = () => {
-  const [favorites, setFavorites] = useState<MovieProps[]>([]);
+  const [favorites, setFavorites] = useState<NormalizedMovie[]>([]);
 
   // -----------------------------
   // Load favorites from localStorage on mount
   // -----------------------------
   useEffect(() => {
     const saved = localStorage.getItem("favorites");
-    if (saved) {
-      setFavorites(JSON.parse(saved));
-    }
+    if (!saved) return;
+
+    const parsed = JSON.parse(saved);
+
+    // Normalize favorites for safe rendering
+    const normalized: NormalizedMovie[] = parsed.map((movie: any) => ({
+      id: movie.id,
+      title:
+        movie.title || // already normalized
+        movie.titleText?.text ||
+        movie.originalTitleText?.text ||
+        "Untitled",
+      releaseYear:
+        movie.releaseYear?.year
+          ? String(movie.releaseYear.year)
+          : movie.releaseYear || // already normalized
+            "N/A",
+      posterImage:
+        movie.posterImage || // already normalized
+        movie.primaryImage?.url ||
+        "/placeholder.jpg",
+      genres:
+        movie.genres || // already normalized
+        movie.titleGenres?.genres
+          ?.map((g: any) => g.genre?.text)
+          .join(", ") ||
+        "N/A",
+    }));
+
+    setFavorites(normalized);
   }, []);
 
   // -----------------------------
-  // Update state after removing a favorite
+  // Update favorites after removing a movie
   // -----------------------------
   const handleUpdate = () => {
     const saved = localStorage.getItem("favorites");
-    setFavorites(saved ? JSON.parse(saved) : []);
+    if (!saved) {
+      setFavorites([]);
+      return;
+    }
+
+    const parsed = JSON.parse(saved);
+
+    const normalized: NormalizedMovie[] = parsed.map((movie: any) => ({
+      id: movie.id,
+      title:
+        movie.title ||
+        movie.titleText?.text ||
+        movie.originalTitleText?.text ||
+        "Untitled",
+      releaseYear:
+        movie.releaseYear?.year
+          ? String(movie.releaseYear.year)
+          : movie.releaseYear ||
+            "N/A",
+      posterImage:
+        movie.posterImage || movie.primaryImage?.url || "/placeholder.jpg",
+      genres:
+        movie.genres ||
+        movie.titleGenres?.genres?.map((g: any) => g.genre?.text).join(", ") ||
+        "N/A",
+    }));
+
+    setFavorites(normalized);
   };
 
   return (
@@ -32,11 +95,14 @@ const FavoritesPage: React.FC = () => {
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
           {favorites.map((movie) => (
-            // Pass a key and a special prop so MovieCard can update favorites
             <MovieCard
               key={movie.id}
-              {...movie}
-              onFavoriteChange={handleUpdate} // optional callback
+              id={movie.id}
+              title={movie.title}
+              posterImage={movie.posterImage}
+              releaseYear={movie.releaseYear}
+              genres={movie.genres}
+              onFavoriteChange={handleUpdate} // callback for unfavorite
             />
           ))}
         </div>
@@ -45,5 +111,6 @@ const FavoritesPage: React.FC = () => {
   );
 };
 
-
 export default FavoritesPage;
+
+

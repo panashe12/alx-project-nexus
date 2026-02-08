@@ -16,6 +16,7 @@ export interface MovieProps {
   posterImage: string;
   releaseYear: string;
   title: string;
+  genres?: string;
   onFavoriteChange?: () => void;
 }
 
@@ -77,6 +78,8 @@ interface MovieOverview {
     year: number;
   };
 }
+
+
 
 
 
