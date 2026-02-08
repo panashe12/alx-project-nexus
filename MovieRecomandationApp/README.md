@@ -1,40 +1,161 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# Movie Recommendation Website
 
-## Getting Started
+## Overview
 
-First, run the development server:
+This project is a full‑stack movie recommendation and discovery website built with **Next.js**, **TypeScript**, and **React**. It integrates with an external movie API (via RapidAPI) to fetch real‑time movie data and provides users with a clean, professional interface for browsing, searching, and viewing detailed movie information.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+The application follows modern frontend and backend best practices, with a strong focus on scalability, maintainability, and user experience.
+
+---
+
+## Key Features Implemented
+
+### 1. Movie Discovery & Listings
+
+* Fetches movies dynamically from an external API.
+* Displays movie cards with poster images, titles, and release years.
+* Handles missing or incomplete API data gracefully (e.g. fallback values for images and metadata).
+
+### 2. Movie Overview Page
+
+* Dynamic routing using `pages/movies/[id].tsx`.
+* Detailed movie overview when a user clicks on a movie card.
+* Displays:
+
+  * Movie title and release year
+  * Poster image
+  * Overview/description
+  * Genres (custom, non‑generic layout)
+  * Key cast and contributors
+
+### 3. Key Cast & Contributors UI
+
+* Circular (rounded) cast images for a polished look.
+* White cast names with orange secondary text (AKAs).
+* Horizontal carousel layout with:
+
+  * Hidden scrollbar
+  * Left and right navigation arrows
+  * Smooth, professional interaction design
+
+### 4. Search Functionality
+
+* Search input connected to an API endpoint.
+* Clean separation of concerns between UI components and API logic.
+* Scalable structure allowing search to be reused across pages.
+
+### 5. Favorites System
+
+* Dedicated Favorites page.
+* Header navigation linked correctly to the Favorites route.
+* Ability to manage and display user‑selected favorite movies.
+
+### 6. API Architecture
+
+* Custom Next.js API routes under `pages/api/`.
+* Example:
+
+  * `pages/api/fetchmovies/[id].ts` for fetching individual movie data.
+* Environment‑based configuration using `.env.local` for API keys.
+* Axios used for API requests with proper error handling.
+
+### 7. TypeScript & Data Safety
+
+* Strong typing with shared interfaces (`MovieProps`, component props, etc.).
+* Fixed common runtime and TypeScript issues such as:
+
+  * Rendering objects instead of primitives in JSX
+  * Incorrect union types (`string | number` mismatches)
+  * Undefined or missing API fields
+
+### 8. Layout & Global Structure
+
+* Reusable `Layout` component with:
+
+  * Global Header
+  * Main content area
+  * Footer
+* Consistent styling across all pages.
+* Clean project structure following Next.js conventions.
+
+### 9. UI/UX Improvements
+
+* Removed unnecessary scrollbars.
+* Improved visual hierarchy and spacing.
+* Professional card layouts and responsive behavior.
+* Clear separation between data, presentation, and logic.
+
+### 10. Git & Workflow Setup
+
+* Proper Git configuration (user name, email, branches).
+* Guidance on creating branches and setting upstream remotes.
+* Clean development workflow for ongoing feature additions.
+
+---
+
+## Tech Stack
+
+* **Frontend:** Next.js, React, TypeScript
+* **Backend:** Next.js API Routes
+* **HTTP Client:** Axios
+* **Styling:** CSS / utility‑based styling
+* **Version Control:** Git & GitHub
+* **External API:** RapidAPI (movie data provider)
+
+---
+
+## Project Structure (Simplified)
+
+```
+/pages
+  /api
+    /fetchmovies
+      [id].ts
+  /movies
+    [id].tsx
+  /favorites
+    favorites.tsx
+
+/components
+  Layout
+  Header
+  Footer
+  MovieCard
+  CastCarousel
+
+/interfaces
+  index.ts
+
+/styles
+  globals.css
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Current State
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+The project is fully functional with:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+* Working API integrations
+* Dynamic routing
+* A polished movie overview experience
+* Search and favorites functionality
+* A professional, production‑ready UI foundation
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The codebase is structured to support future enhancements such as authentication, personalized recommendations, pagination, and advanced filtering.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Next Steps (Optional Enhancements)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+* User authentication and profiles
+* Persistent favorites (database or local storage sync)
+* Recommendation logic based on user behavior
+* Performance optimizations and caching
+* Unit and integration testing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Author
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+Developed as part of a growing full‑stack movie recommendation platform using modern web technologies.
