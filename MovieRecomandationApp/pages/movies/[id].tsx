@@ -2,6 +2,8 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { useEffect, useState, useRef } from "react";
 import { MovieProps } from "@/interfaces";
+import RecommendedMovies from "@/components/RecommendedMovies";
+
 
 const MovieOverviewPage = () => {
   const router = useRouter();
@@ -209,6 +211,9 @@ const MovieOverviewPage = () => {
         {movie.reviews && <p>📝 {movie.reviews.total} Reviews</p>}
         {movie.externalLinks && <p>🔗 {movie.externalLinks.total} External Links</p>}
       </section>
+      
+      {movie?.id && <RecommendedMovies movieId={movie.id} />}
+
     </div>
   );
 };
