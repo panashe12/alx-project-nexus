@@ -17,6 +17,10 @@ const Home: React.FC = () => {
     { src: "/Crime.webp", name: "Crime" },
     { src: "/Romance.webp", name: "Romance" },
   ];
+  // Fallback image in case a GIF fails to load
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    e.currentTarget.src = "/placeholder.webp"; // make sure you have placeholder.webp in /public
+  };
 
   return (
     <div className="text-white">
