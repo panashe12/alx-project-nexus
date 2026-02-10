@@ -1,18 +1,16 @@
 import Button from "@/components/commons/Button";
 import { useRouter } from "next/router";
 
-// Import Swiper React components
+// Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, EffectCoverflow } from "swiper/modules";
+import { Autoplay, FreeMode } from "swiper/modules";
 
-// Import Swiper styles
+// Swiper styles
 import "swiper/css";
-import "swiper/css/effect-coverflow";
 
 const Home: React.FC = () => {
   const router = useRouter();
 
-  // Array of your GIFs
   const gifs = [
     { src: "/Action.webp", name: "Action" },
     { src: "/Comedy.webp", name: "Comedy" },
@@ -28,37 +26,41 @@ const Home: React.FC = () => {
         style={{ backgroundImage: 'url("/mainpic.jpg")' }}
       >
         <h1 className="text-5xl md:text-7xl font-bold mb-8">
-          Movies You Will Love, Made <span className="text-[#da7227]">Easy</span>
+          Movies You Will Love, Made{" "}
+          <span className="text-[#da7227]">Easy</span>
         </h1>
         <p className="text-lg md:text-2xl mb-8 max-w-2xl">
-          Dive into the latest blockbusters, award-winning films, and your personal favorites All in one place
+          Dive into the latest blockbusters, award-winning films, and your personal favorites — All in one place
         </p>
         <Button
           title="Browse Movies"
-          action={() => router.push("/movies", undefined, { shallow: false })}
+          action={() => router.push("/movies")}
         />
       </section>
 
-      {/* Middle Section: Center-Focused Slideshow */}
+      {/* Continuous Horizontal Auto-Swiping Carousel */}
       <section className="py-16 px-8 md:px-44 bg-black text-white">
         <h2 className="text-3xl md:text-5xl font-semibold mb-8 text-center">
           Explore Genres
         </h2>
 
         <Swiper
-          modules={[Autoplay, EffectCoverflow]}
-          effect="coverflow"
-          grabCursor={true}
-          centeredSlides={true}
+          modules={[Autoplay, FreeMode]}
           slidesPerView={3}
+          spaceBetween={20}
           loop={true}
-          autoplay={{ delay: 2000, disableOnInteraction: false }}
-          coverflowEffect={{
-            rotate: 0,
-            stretch: 0,
-            depth: 100,
-            modifier: 1,
-            slideShadows: false,
+          freeMode={true} // smooth continuous scrolling
+          grabCursor={true}
+          speed={3000} // controls how fast the slides scroll
+          autoplay={{
+            delay: 0, // continuous movement
+            disableOnInteraction: false,
+            pauseOnMouseEnter: false,
+          }}
+          breakpoints={{
+            640: { slidesPerView: 1.5 },
+            768: { slidesPerView: 2.5 },
+            1024: { slidesPerView: 3 },
           }}
         >
           {gifs.map((gif) => (
@@ -89,6 +91,12 @@ const Home: React.FC = () => {
 };
 
 export default Home;
+
+
+
+
+
+
 
 
 
