@@ -79,6 +79,15 @@ interface MovieOverview {
   };
 }
 
+// Normalized type for Favorites page
+export interface NormalizedMovie {
+  id: string;
+  title: string;
+  releaseYear: string;
+  posterImage: string;
+  genres: string;
+}
+
 
 
 
