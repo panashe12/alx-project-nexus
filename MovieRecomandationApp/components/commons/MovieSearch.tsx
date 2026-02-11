@@ -43,7 +43,7 @@ const MovieSearch: React.FC<MovieSearchProps> = ({ onResults }) => {
       <button
         onClick={handleSearch}
         disabled={loading}
-        className="bg-black text-white px-6 py-2 rounded"
+        className="bg-[#da7227] text-white px-6 py-2 rounded hover:bg-[#d77d41] transition"
       >
         {loading ? "Searching..." : "Search"}
       </button>

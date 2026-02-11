@@ -81,7 +81,7 @@ const MoviesPage: React.FC = () => {
       {/* Movies grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {movies.length === 0 ? (
-          <p>{isSearching ? "No search results found." : "No movies found."}</p>
+          <p>{isSearching ? "No search results found." : "Loading movies..."}</p>
         ) : (
           movies.map((movie: any) => {
             if (!movie?.id) return null;

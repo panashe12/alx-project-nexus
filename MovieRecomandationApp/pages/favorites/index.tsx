@@ -1,15 +1,8 @@
 // File: /pages/favorites/index.tsx
 import { useEffect, useState } from "react";
 import MovieCard from "@/components/commons/MovieCard";
+import { NormalizedMovie } from "@/interfaces";
 
-// Normalized type for Favorites page
-interface NormalizedMovie {
-  id: string;
-  title: string;
-  releaseYear: string;
-  posterImage: string;
-  genres: string;
-}
 
 const FavoritesPage: React.FC = () => {
   const [favorites, setFavorites] = useState<NormalizedMovie[]>([]);
@@ -87,7 +80,7 @@ const FavoritesPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#12122B] text-white p-6">
+    <div className="min-h-screen bg-black text-white p-6">
       <h1 className="text-3xl font-bold mb-6">Your Favorite Movies</h1>
 
       {favorites.length === 0 ? (

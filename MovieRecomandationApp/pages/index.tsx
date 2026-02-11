@@ -81,14 +81,15 @@ const Home: React.FC = () => {
       </section>
 
       {/* Join bingeGuru Section */}
-      <section className="py-16 px-8 md:px-44 bg-[#121018] text-center">
+      <section className="py-16 px-8 md:px-44 bg-black text-center">
         <h2 className="text-3xl md:text-5xl font-semibold mb-8">
           Your Movie Journey Starts Here
         </h2>
         <p className="text-lg md:text-2xl mb-12">
           Join now to unlock exclusive content, the latest releases, and handpicked movie recommendations.
         </p>
-        <Button title="Get Started" />
+        <Button title="Browse Movies"
+        action={() => router.push("/movies")} />
       </section>
     </div>
   );

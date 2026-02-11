@@ -93,7 +93,8 @@ const MovieOverviewPage = () => {
           </div>
           <button
             onClick={addToFavorites}
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+            className="mt-4 px-4 py-2 bg-[#da7227] text-white rounded hover:bg-[#c86522] transition"
+
           >
             Add to Favorites
           </button>
@@ -103,7 +104,7 @@ const MovieOverviewPage = () => {
       {/* Plot Section */}
       <section className="mt-8">
         <h2 className="text-2xl font-semibold mb-2">Plot</h2>
-        <p className="text-gray-700">{movie.plot?.plotText?.plainText}</p>
+        <p className="text-white">{movie.plot?.plotText?.plainText}</p>
       </section>
 
       {/* Genres / Subgenres */}
@@ -156,7 +157,7 @@ const MovieOverviewPage = () => {
               interest.node.primaryImage?.names?.map((name: any) => (
                 <div
                   key={name.id}
-                  className="min-w-[140px] bg-gray-800 rounded-lg p-2 flex-shrink-0 flex flex-col items-center hover:scale-105 transition-transform"
+                  className="min-w-35 bg-gray-800 rounded-lg p-2 shrink-0 flex flex-col items-center hover:scale-105 transition-transform"
                 >
                   {name.primaryImage?.url && (
                     <img

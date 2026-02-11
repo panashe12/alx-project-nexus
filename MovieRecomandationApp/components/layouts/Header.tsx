@@ -1,5 +1,5 @@
 import Link from "next/link"
-import Button from "../commons/Button"
+
 
 const Header: React.FC = () => {
   return (
@@ -49,9 +49,7 @@ const Header: React.FC = () => {
 
         </nav>
 
-        <div className="flex">
-          <Button title="Sign in" />
-        </div>
+        
       </div>
     </header>
   )
